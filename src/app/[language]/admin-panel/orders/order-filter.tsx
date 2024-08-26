@@ -8,19 +8,27 @@ import Popover from "@mui/material/Popover";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { UserFilterType } from "./user-filter-types";
+import { OrderFilterType } from "./order-filter-types";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import { OrderStatus, OrderStatusSelect } from "@/services/api/types/order";
+import FormSelectInput from "@/components/form/select/form-select";
 
-type UserFilterFormData = UserFilterType;
+type OrderFilterFormData = OrderFilterType;
 
-function UserFilter() {
-  const { t } = useTranslation("admin-panel-users");
+function OrderFilter() {
+  const { t } = useTranslation("admin-panel-orders");
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const methods = useForm<UserFilterFormData>({
+  const methods = useForm<OrderFilterFormData>({
     defaultValues: {
-      email: "",
+      customerName: "",
+      customerPhone: "",
+      minTotal: 0,
+      maxTotal: 0,
+      status: {
+        id: OrderStatus.CREATED,
+      },
     },
   });
 
@@ -37,7 +45,7 @@ function UserFilter() {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "user-filter-popover" : undefined;
+  const id = open ? "order-filter-popover" : undefined;
 
   useEffect(() => {
     const filter = searchParams.get("filter");
@@ -76,43 +84,40 @@ function UserFilter() {
           >
             <Grid container spacing={2} mb={3} mt={3}>
               <Grid item xs={12}>
-                {/* <FormMultipleSelectInput<UserFilterFormData, Pick<Role, "id">>
-                  name="email"
-                  testId="roles"
-                  label={t("admin-panel-users:filter.inputs.role.label")}
-                  options={[
-                    {
-                      id: RoleEnum.ADMIN,
-                    },
-                    {
-                      id: RoleEnum.USER,
-                    },
-                  ]}
-                  keyValue="id"
-                  renderOption={(option) =>
-                    t(
-                      `admin-panel-users:filter.inputs.role.options.${option.id}`
-                    )
-                  }
-                  renderValue={(values) =>
-                    values
-                      .map((value) =>
-                        t(
-                          `admin-panel-users:filter.inputs.role.options.${value.id}`
-                        )
-                      )
-                      .join(", ")
-                  }
-                /> */}
-
-                <FormTextInput<UserFilterFormData>
-                  name="email"
-                  label={t("admin-panel-users:filter.inputs.email.label")}
+                <FormTextInput<OrderFilterFormData>
+                  name="customerName"
+                  label={t("admin-panel-orders:filter.inputs.customer-name")}
                 ></FormTextInput>
+                <FormTextInput<OrderFilterFormData>
+                  name="customerPhone"
+                  label={t("admin-panel-orders:filter.inputs.customer-phone")}
+                ></FormTextInput>
+                <FormTextInput<OrderFilterFormData>
+                  name="minTotal"
+                  label={t("admin-panel-orders:filter.inputs.min-total")}
+                ></FormTextInput>
+                <FormTextInput<OrderFilterFormData>
+                  name="maxTotal"
+                  label={t("admin-panel-orders:filter.inputs.max-total")}
+                ></FormTextInput>
+                <FormSelectInput<
+                  OrderFilterFormData,
+                  Pick<OrderStatusSelect, "id">
+                >
+                  name="status"
+                  testId="status"
+                  label={t("admin-panel-orders:filter.inputs.status")}
+                  options={Object.keys(OrderStatus).map((item) => {
+                    console.log(item);
+                    return { id: item };
+                  })}
+                  keyValue="id"
+                  renderOption={(option) => option.id}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Button variant="contained" type="submit">
-                  {t("admin-panel-users:filter.actions.apply")}
+                  {t("admin-panel-orders:filter.actions.apply")}
                 </Button>
               </Grid>
             </Grid>
@@ -120,10 +125,10 @@ function UserFilter() {
         </Container>
       </Popover>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        {t("admin-panel-users:filter.actions.filter")}
+        {t("admin-panel-orders:filter.actions.filter")}
       </Button>
     </FormProvider>
   );
 }
 
-export default UserFilter;
+export default OrderFilter;

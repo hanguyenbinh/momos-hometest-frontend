@@ -1,4 +1,8 @@
 export type InfinityPaginationType<T> = {
   hasNextPage: boolean;
-  data: T[];
+  users: T[];
+};
+export type InfinityOrdersPaginationType<T> = {
+  hasNextPage: boolean;
+  orders: T[];
 };

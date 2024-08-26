@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect } from "react";
@@ -11,7 +12,6 @@ import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import useAuthActions from "@/services/auth/use-auth-actions";
 import useAuth from "@/services/auth/use-auth";
@@ -38,7 +38,7 @@ export default function ConfirmNewEmail() {
         hash,
       });
 
-      if (status === HTTP_CODES_ENUM.NO_CONTENT) {
+      if (status === true) {
         enqueueSnackbar(t("confirm-new-email:emailConfirmed"), {
           variant: "success",
         });
@@ -46,19 +46,19 @@ export default function ConfirmNewEmail() {
         if (user) {
           const { data, status: statusGetMe } = await fetchAuthGetMe();
 
-          if (statusGetMe === HTTP_CODES_ENUM.OK) {
+          if (statusGetMe === true) {
             setUser(data);
           }
 
-          router.replace("/profile");
+          // router.replace("/profile");
         } else {
-          router.replace("/");
+          // router.replace("/");
         }
       } else {
         enqueueSnackbar(t("confirm-new-email:emailConfirmFailed"), {
           variant: "error",
         });
-        router.replace("/");
+        // router.replace("/");s
       }
     };
 

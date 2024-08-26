@@ -21,7 +21,7 @@ export function useGet<%= h.inflection.transform(name, ['pluralize']) %>Service(
 
   return useCallback(
     (data: Get<%= h.inflection.transform(name, ['pluralize']) %>Request, requestConfig?: RequestConfigType) => {
-      const requestUrl = new URL(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>`);
+      const requestUrl = new URL(`${API_URL}/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>`);
       requestUrl.searchParams.append("page", data.page.toString());
       requestUrl.searchParams.append("limit", data.limit.toString());
 
@@ -45,7 +45,7 @@ export function useGet<%= name %>Service() {
 
   return useCallback(
     (data: Get<%= name %>Request, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
+      return fetch(`${API_URL}/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
         method: "GET",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<Get<%= name %>Response>);
@@ -63,7 +63,7 @@ export function useCreate<%= name %>Service() {
 
   return useCallback(
     (data: Create<%= name %>Request, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>`, {
+      return fetch(`${API_URL}/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
@@ -85,7 +85,7 @@ export function useEdit<%= name %>Service() {
 
   return useCallback(
     (data: Edit<%= name %>Request, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
+      return fetch(`${API_URL}/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
         ...requestConfig,
@@ -106,7 +106,7 @@ export function useDelete<%= name %>Service() {
 
   return useCallback(
     (data: Delete<%= name %>Request, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
+      return fetch(`${API_URL}/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/${data.id}`, {
         method: "DELETE",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<Delete<%= name %>Response>);

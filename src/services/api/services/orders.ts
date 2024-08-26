@@ -2,37 +2,48 @@ import { useCallback } from "react";
 import useFetch from "../use-fetch";
 import { API_URL } from "../config";
 import wrapperFetchJsonResponse from "../wrapper-fetch-json-response";
-import { User } from "../types/user";
-import { InfinityPaginationType } from "../types/infinity-pagination";
+import { Order, OrderColumn, OrderStatusSelect } from "../types/order";
+import { InfinityOrdersPaginationType } from "../types/infinity-pagination";
 import { SortEnum } from "../types/sort-type";
 import { RequestConfigType } from "./types/request-config";
 import wrapperFetchJsonData from "../wrapper-json-data";
 
-export type UsersRequest = {
+export type OrdersRequest = {
   page: number;
   limit: number;
   filters?: {
-    email?: string;
+    customerName?: string;
+    customerPhone?: string;
+    minTotal?: number;
+    maxTotal?: number;
+    status?: OrderStatusSelect;
   };
   sort?: Array<{
-    orderBy: keyof User;
+    orderBy: keyof OrderColumn;
     order: SortEnum;
   }>;
 };
 
-export type UsersResponse = InfinityPaginationType<User>;
+export type OrdersResponse = InfinityOrdersPaginationType<Order>;
 
-export function useGetUsersService() {
+export function useGetOrdersService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UsersRequest, requestConfig?: RequestConfigType) => {
-      const requestUrl = new URL(`${API_URL}/auth`);
+    (data: OrdersRequest, requestConfig?: RequestConfigType) => {
+      const requestUrl = new URL(`${API_URL}/order`);
       requestUrl.searchParams.append("page", data.page.toString());
       requestUrl.searchParams.append("limit", data.limit.toString());
-      if (data.filters && data.filters.email) {
-        requestUrl.searchParams.append("email", data.filters.email);
+      if (data.filters) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const filters = data.filters as any;
+        Object.keys(filters).forEach((k) => {
+          if (k === "status") {
+            requestUrl.searchParams.append(k, filters[k].id);
+          } else requestUrl.searchParams.append(k, filters[k]);
+        });
       }
+
       if (data.sort) {
         requestUrl.searchParams.append("sort", data.sort[0].order);
         requestUrl.searchParams.append("order", data.sort[0].orderBy);
@@ -44,7 +55,7 @@ export function useGetUsersService() {
       }).then(async (response) => {
         const wrapperResponse = await wrapperFetchJsonResponse(response);
         const wrapperData =
-          wrapperFetchJsonData<UsersResponse>(wrapperResponse);
+          wrapperFetchJsonData<OrdersResponse>(wrapperResponse);
         return wrapperData;
       });
     },
@@ -52,23 +63,24 @@ export function useGetUsersService() {
   );
 }
 
-export type UserRequest = {
-  id: User["id"];
+export type OrderRequest = {
+  id: Order["id"];
 };
 
-export type UserResponse = User;
+export type OrderResponse = Order;
 
-export function useGetUserService() {
+export function useGetOrderService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/auth/${data.id}`, {
+    (data: OrderRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/order/${data.id}`, {
         method: "GET",
         ...requestConfig,
       }).then(async (response) => {
         const wrapperResponse = await wrapperFetchJsonResponse(response);
-        const wrapperData = wrapperFetchJsonData<UserResponse>(wrapperResponse);
+        const wrapperData =
+          wrapperFetchJsonData<OrderResponse>(wrapperResponse);
         return wrapperData;
       });
     },
@@ -76,28 +88,23 @@ export function useGetUserService() {
   );
 }
 
-export type UserPostRequest = Pick<
-  User,
-  "email" | "firstName" | "lastName" | "photo" | "role"
-> & {
-  password: string;
-};
+export type OrderPostRequest = Pick<Order, "customerId" | "items">;
 
-export type UserPostResponse = User;
+export type OrderPostResponse = Order;
 
-export function usePostUserService() {
+export function usePostOrderService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserPostRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/auth`, {
+    (data: OrderPostRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/order`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
       }).then(async (response) => {
         const wrapperResponse = await wrapperFetchJsonResponse(response);
         const wrapperData =
-          wrapperFetchJsonData<UserPostResponse>(wrapperResponse);
+          wrapperFetchJsonData<OrderPostResponse>(wrapperResponse);
         return wrapperData;
       });
     },
@@ -105,30 +112,26 @@ export function usePostUserService() {
   );
 }
 
-export type UserPatchRequest = {
-  id: User["id"];
-  data: Partial<
-    Pick<User, "email" | "firstName" | "lastName" | "photo" | "role"> & {
-      password: string;
-    }
-  >;
+export type OrderPatchRequest = {
+  id: Order["id"];
+  data: Partial<Pick<Order, "items">>;
 };
 
-export type UserPatchResponse = User;
+export type OrderPatchResponse = Order;
 
-export function usePatchUserService() {
+export function usePatchOrderService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserPatchRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/auth/${data.id}`, {
+    (data: OrderPatchRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/order/${data.id}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
         ...requestConfig,
       }).then(async (response) => {
         const wrapperResponse = await wrapperFetchJsonResponse(response);
         const wrapperData =
-          wrapperFetchJsonData<UserPatchResponse>(wrapperResponse);
+          wrapperFetchJsonData<OrderPatchResponse>(wrapperResponse);
         return wrapperData;
       });
     },
@@ -136,24 +139,24 @@ export function usePatchUserService() {
   );
 }
 
-export type UsersDeleteRequest = {
-  id: User["id"];
+export type OrdersDeleteRequest = {
+  id: Order["id"];
 };
 
-export type UsersDeleteResponse = undefined;
+export type OrdersDeleteResponse = undefined;
 
-export function useDeleteUsersService() {
+export function useDeleteOrdersService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UsersDeleteRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/auth/${data.id}`, {
+    (data: OrdersDeleteRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/order/${data.id}`, {
         method: "DELETE",
         ...requestConfig,
       }).then(async (response) => {
         const wrapperResponse = await wrapperFetchJsonResponse(response);
         const wrapperData =
-          wrapperFetchJsonData<UsersDeleteResponse>(wrapperResponse);
+          wrapperFetchJsonData<OrdersDeleteResponse>(wrapperResponse);
         return wrapperData;
       });
     },

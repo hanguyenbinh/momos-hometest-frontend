@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Button from "@mui/material/Button";
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
@@ -18,7 +19,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "@/components/link";
 import Box from "@mui/material/Box";
 import MuiLink from "@mui/material/Link";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
@@ -103,24 +103,13 @@ function Form() {
     },
   });
 
-  const { handleSubmit, setError } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit(async (formData) => {
     const { data: dataSignUp, status: statusSignUp } =
       await fetchAuthSignUp(formData);
 
-    if (statusSignUp === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(dataSignUp.errors) as Array<keyof SignUpFormData>).forEach(
-        (key) => {
-          setError(key, {
-            type: "manual",
-            message: t(
-              `sign-up:inputs.${key}.validation.server.${dataSignUp.errors[key]}`
-            ),
-          });
-        }
-      );
-
+    if (statusSignUp === false) {
       return;
     }
 
@@ -129,14 +118,12 @@ function Form() {
       password: formData.password,
     });
 
-    if (statusSignIn === HTTP_CODES_ENUM.OK) {
-      setTokensInfo({
-        token: dataSignIn.token,
-        refreshToken: dataSignIn.refreshToken,
-        tokenExpires: dataSignIn.tokenExpires,
-      });
-      setUser(dataSignIn.user);
-    }
+    setTokensInfo({
+      token: dataSignIn.token,
+      refreshToken: dataSignIn.refreshToken,
+      tokenExpires: dataSignIn.tokenExpires,
+    });
+    setUser(dataSignIn.user);
   });
 
   return (

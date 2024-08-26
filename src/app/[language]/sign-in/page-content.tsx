@@ -14,7 +14,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "@/components/link";
 import Box from "@mui/material/Box";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import SocialAuth from "@/services/social-auth/social-auth";
 import Divider from "@mui/material/Divider";
@@ -75,34 +74,33 @@ function Form() {
     },
   });
 
-  const { handleSubmit, setError } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthLogin(formData);
 
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof SignInFormData>).forEach(
-        (key) => {
-          setError(key, {
-            type: "manual",
-            message: t(
-              `sign-in:inputs.${key}.validation.server.${data.errors[key]}`
-            ),
-          });
-        }
-      );
+    if (status === false) {
+      // (Object.keys(data.errors) as Array<keyof SignInFormData>).forEach(
+      //   (key) => {
+      //     setError(key, {
+      //       type: "manual",
+      //       message: t(
+      //         `sign-in:inputs.${key}.validation.server.${data.errors[key]}`
+      //       ),
+      //     });
+      //   }
+      // );
 
       return;
     }
+    console.log("fetchAuthLogin", data);
 
-    if (status === HTTP_CODES_ENUM.OK) {
-      setTokensInfo({
-        token: data.token,
-        refreshToken: data.refreshToken,
-        tokenExpires: data.tokenExpires,
-      });
-      setUser(data.user);
-    }
+    setTokensInfo({
+      token: data.token,
+      refreshToken: data.refreshToken,
+      tokenExpires: data.tokenExpires,
+    });
+    setUser(data.user);
   });
 
   return (

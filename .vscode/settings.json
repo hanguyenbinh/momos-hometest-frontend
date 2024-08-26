@@ -5,5 +5,11 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "markdown.extension.toc.levels": "2..6",
-  "markdown.extension.orderedList.autoRenumber": false
+  "markdown.extension.orderedList.autoRenumber": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

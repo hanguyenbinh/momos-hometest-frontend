@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
@@ -173,28 +174,26 @@ function FormBasicInfo() {
   const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthPatchMe(formData);
 
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (
-        Object.keys(data.errors) as Array<keyof EditProfileBasicInfoFormData>
-      ).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(
-            `profile:inputs.${key}.validation.server.${data.errors[key]}`
-          ),
-        });
-      });
+    if (status === false) {
+      // (
+      //   Object.keys(data.errors) as Array<keyof EditProfileBasicInfoFormData>
+      // ).forEach((key) => {
+      //   setError(key, {
+      //     type: "manual",
+      //     message: t(
+      //       `profile:inputs.${key}.validation.server.${data.errors[key]}`
+      //     ),
+      //   });
+      // });
 
       return;
     }
 
-    if (status === HTTP_CODES_ENUM.OK) {
-      setUser(data);
+    setUser(data);
 
-      enqueueSnackbar(t("profile:alerts.profile.success"), {
-        variant: "success",
-      });
-    }
+    enqueueSnackbar(t("profile:alerts.profile.success"), {
+      variant: "success",
+    });
   });
 
   useEffect(() => {
@@ -279,29 +278,27 @@ function FormChangeEmail() {
       email: formData.email,
     });
 
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (
-        Object.keys(data.errors) as Array<keyof EditProfileChangeEmailFormData>
-      ).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(
-            `profile:inputs.${key}.validation.server.${data.errors[key]}`
-          ),
-        });
-      });
+    if (status === false) {
+      // (
+      //   Object.keys(data.errors) as Array<keyof EditProfileChangeEmailFormData>
+      // ).forEach((key) => {
+      //   setError(key, {
+      //     type: "manual",
+      //     message: t(
+      //       `profile:inputs.${key}.validation.server.${data.errors[key]}`
+      //     ),
+      //   });
+      // });
 
       return;
     }
 
-    if (status === HTTP_CODES_ENUM.OK) {
-      reset();
+    reset();
 
-      enqueueSnackbar(t("profile:alerts.email.success"), {
-        variant: "success",
-        autoHideDuration: 15000,
-      });
-    }
+    enqueueSnackbar(t("profile:alerts.email.success"), {
+      variant: "success",
+      autoHideDuration: 15000,
+    });
   });
 
   return (
@@ -369,7 +366,7 @@ function FormChangePassword() {
     },
   });
 
-  const { handleSubmit, setError, reset } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthPatchMe({
@@ -377,30 +374,28 @@ function FormChangePassword() {
       oldPassword: formData.oldPassword,
     });
 
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (
-        Object.keys(data.errors) as Array<
-          keyof EditProfileChangePasswordFormData
-        >
-      ).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(
-            `profile:inputs.${key}.validation.server.${data.errors[key]}`
-          ),
-        });
-      });
+    if (status === false) {
+      // (
+      //   Object.keys(data.errors) as Array<
+      //     keyof EditProfileChangePasswordFormData
+      //   >
+      // ).forEach((key) => {
+      //   setError(key, {
+      //     type: "manual",
+      //     message: t(
+      //       `profile:inputs.${key}.validation.server.${data.errors[key]}`
+      //     ),
+      //   });
+      // });
 
       return;
     }
 
-    if (status === HTTP_CODES_ENUM.OK) {
-      reset();
+    reset();
 
-      enqueueSnackbar(t("profile:alerts.password.success"), {
-        variant: "success",
-      });
-    }
+    enqueueSnackbar(t("profile:alerts.password.success"), {
+      variant: "success",
+    });
   });
 
   return (

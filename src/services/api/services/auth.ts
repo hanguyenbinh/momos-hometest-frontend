@@ -6,6 +6,7 @@ import { User } from "../types/user";
 import { Tokens } from "../types/tokens";
 import wrapperFetchJsonResponse from "../wrapper-fetch-json-response";
 import { RequestConfigType } from "./types/request-config";
+import wrapperFetchJsonData from "../wrapper-json-data";
 
 export type AuthLoginRequest = {
   email: string;
@@ -21,10 +22,15 @@ export function useAuthLoginService() {
 
   return useCallback(
     (data: AuthLoginRequest) => {
-      return fetchBase(`${API_URL}/v1/auth/email/login`, {
+      return fetchBase(`${API_URL}/auth/login`, {
         method: "POST",
         body: JSON.stringify(data),
-      }).then(wrapperFetchJsonResponse<AuthLoginResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthLoginResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -43,10 +49,15 @@ export function useAuthGoogleLoginService() {
 
   return useCallback(
     (data: AuthGoogleLoginRequest) => {
-      return fetchBase(`${API_URL}/v1/auth/google/login`, {
+      return fetchBase(`${API_URL}/auth/google/login`, {
         method: "POST",
         body: JSON.stringify(data),
-      }).then(wrapperFetchJsonResponse<AuthGoogleLoginResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthGoogleLoginResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -65,11 +76,16 @@ export function useAuthFacebookLoginService() {
 
   return useCallback(
     (data: AuthFacebookLoginRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/facebook/login`, {
+      return fetchBase(`${API_URL}/auth/facebook/login`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthFacebookLoginResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthFacebookLoginResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -87,11 +103,16 @@ export function useAuthSignUpService() {
 
   return useCallback(
     (data: AuthSignUpRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/email/register`, {
+      return fetchBase(`${API_URL}/auth/register`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthSignUpResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthSignUpResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -108,11 +129,16 @@ export function useAuthConfirmEmailService() {
 
   return useCallback(
     (data: AuthConfirmEmailRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/email/confirm`, {
+      return fetchBase(`${API_URL}/auth/confirm`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthConfirmEmailResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthConfirmEmailResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -129,11 +155,16 @@ export function useAuthConfirmNewEmailService() {
 
   return useCallback(
     (data: AuthConfirmNewEmailRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/email/confirm/new`, {
+      return fetchBase(`${API_URL}/auth/confirm/new`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthConfirmNewEmailResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthConfirmNewEmailResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -150,11 +181,16 @@ export function useAuthForgotPasswordService() {
 
   return useCallback(
     (data: AuthForgotPasswordRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/forgot/password`, {
+      return fetchBase(`${API_URL}/auth/forgot/password`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthForgotPasswordResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthForgotPasswordResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -172,11 +208,16 @@ export function useAuthResetPasswordService() {
 
   return useCallback(
     (data: AuthResetPasswordRequest, requestConfig?: RequestConfigType) => {
-      return fetchBase(`${API_URL}/v1/auth/reset/password`, {
+      return fetchBase(`${API_URL}/auth/reset/password`, {
         method: "POST",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthResetPasswordResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthResetPasswordResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetchBase]
   );
@@ -193,11 +234,16 @@ export function useAuthPatchMeService() {
 
   return useCallback(
     (data: AuthPatchMeRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/auth/me`, {
+      return fetch(`${API_URL}/auth/me`, {
         method: "PATCH",
         body: JSON.stringify(data),
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthPatchMeResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthPatchMeResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetch]
   );
@@ -210,10 +256,15 @@ export function useAuthGetMeService() {
 
   return useCallback(
     (requestConfig?: RequestConfigType) => {
-      return fetch(`${API_URL}/v1/auth/me`, {
+      return fetch(`${API_URL}/auth/me`, {
         method: "GET",
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<AuthGetMeResponse>);
+      }).then(async (response) => {
+        const wrapperResponse = await wrapperFetchJsonResponse(response);
+        const wrapperData =
+          wrapperFetchJsonData<AuthGetMeResponse>(wrapperResponse);
+        return wrapperData;
+      });
     },
     [fetch]
   );

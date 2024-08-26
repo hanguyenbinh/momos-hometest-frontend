@@ -1,9 +1,9 @@
-import { useGetUsersService } from "@/services/api/services/users";
+import { useGetOrdersService } from "@/services/api/services/orders";
 import { createQueryKeys } from "@/services/react-query/query-key-factory";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { UserFilterType, UserSortType } from "../user-filter-types";
+import { OrderFilterType, OrderSortType } from "../order-filter-types";
 
-export const usersQueryKeys = createQueryKeys(["users"], {
+export const ordersQueryKeys = createQueryKeys(["orders"], {
   list: () => ({
     key: [],
     sub: {
@@ -11,8 +11,8 @@ export const usersQueryKeys = createQueryKeys(["users"], {
         sort,
         filter,
       }: {
-        filter: UserFilterType | undefined;
-        sort?: UserSortType | undefined;
+        filter: OrderFilterType | undefined;
+        sort?: OrderSortType | undefined;
       }) => ({
         key: [sort, filter],
       }),
@@ -20,17 +20,17 @@ export const usersQueryKeys = createQueryKeys(["users"], {
   }),
 });
 
-export const useUserListQuery = ({
+export const useOrderListQuery = ({
   sort,
   filter,
 }: {
-  filter?: UserFilterType | undefined;
-  sort?: UserSortType | undefined;
+  filter?: OrderFilterType | undefined;
+  sort?: OrderSortType | undefined;
 } = {}) => {
-  const fetch = useGetUsersService();
+  const fetch = useGetOrdersService();
 
   const query = useInfiniteQuery({
-    queryKey: usersQueryKeys.list().sub.by({ sort, filter }).key,
+    queryKey: ordersQueryKeys.list().sub.by({ sort, filter }).key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
@@ -44,9 +44,10 @@ export const useUserListQuery = ({
           signal,
         }
       );
+
       if (status === true) {
         return {
-          data: data.users,
+          data: data.orders,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,
         };
       }

@@ -236,7 +236,6 @@ function Actions({ user }: { user: User }) {
 
 function Users() {
   const { t: tUsers } = useTranslation("admin-panel-users");
-  const { t: tRoles } = useTranslation("admin-panel-roles");
   const searchParams = useSearchParams();
   const router = useRouter();
   const [{ order, orderBy }, setSort] = useState<{
@@ -378,9 +377,7 @@ function Users() {
                   {user?.firstName} {user?.lastName}
                 </TableCell>
                 <TableCell>{user?.email}</TableCell>
-                <TableCell style={{ width: 80 }}>
-                  {tRoles(`role.${user?.role?.id}`)}
-                </TableCell>
+
                 <TableCell style={{ width: 130 }}>
                   {!!user && <Actions user={user} />}
                 </TableCell>
