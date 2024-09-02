@@ -11,7 +11,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useEffect, useMemo, useState } from "react";
 import Alert from "@mui/material/Alert";
@@ -116,27 +115,21 @@ function Form() {
     const hash = params.get("hash");
     if (!hash) return;
 
-    const { data, status } = await fetchAuthResetPassword({
+    const { status, message } = await fetchAuthResetPassword({
       password: formData.password,
       hash,
     });
 
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof PasswordChangeFormData>).forEach(
-        (key) => {
-          setError(key, {
-            type: "manual",
-            message: t(
-              `password-change:inputs.${key}.validation.server.${data.errors[key]}`
-            ),
-          });
-        }
-      );
+    if (status === false) {
+      setError("root", {
+        type: "manual",
+        message: t(message),
+      });
 
       return;
     }
 
-    if (status === HTTP_CODES_ENUM.NO_CONTENT) {
+    if (status === true) {
       enqueueSnackbar(t("password-change:alerts.success"), {
         variant: "success",
       });

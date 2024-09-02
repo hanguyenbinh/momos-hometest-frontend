@@ -1,29 +1,28 @@
 "use client";
 
-import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { PropsWithChildren, useCallback, useMemo, useState } from "react";
-import { useOrderListQuery } from "./queries/orders-queries";
 import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import LinearProgress from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
 import TableComponents from "@/components/table/table-components";
-import { Order, OrderColumn } from "@/services/api/types/order";
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects";
 
-import OrderFilter from "./order-filter";
 import { useRouter, useSearchParams } from "next/navigation";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { OrderFilterType } from "./order-filter-types";
+import { ImageFilterType } from "./images-filter-types";
 import { SortEnum } from "@/services/api/types/sort-type";
+import { Image, ImageColumn } from "@/services/api/types/image";
+import { useImageListQuery } from "./queries/images-queries";
+import ImageFilter from "./images-filter";
 
-type OrdersColumnKeys = keyof OrderColumn;
+type ImagesColumnKeys = keyof ImageColumn;
 
 const TableCellLoadingContainer = styled(TableCell)(() => ({
   padding: 0,
@@ -32,12 +31,12 @@ const TableCellLoadingContainer = styled(TableCell)(() => ({
 function TableSortCellWrapper(
   props: PropsWithChildren<{
     width?: number;
-    orderBy: OrdersColumnKeys;
+    orderBy: ImagesColumnKeys;
     order: SortEnum;
-    column: OrdersColumnKeys;
+    column: ImagesColumnKeys;
     handleRequestSort: (
       event: React.MouseEvent<unknown>,
-      property: OrdersColumnKeys
+      property: ImagesColumnKeys
     ) => void;
   }>
 ) {
@@ -57,13 +56,13 @@ function TableSortCellWrapper(
   );
 }
 
-function Orders() {
-  const { t: tOrders } = useTranslation("admin-panel-orders");
+function Images() {
+  const { t: tImages } = useTranslation("admin-panel-images");
   const searchParams = useSearchParams();
   const router = useRouter();
   const [{ order, orderBy }, setSort] = useState<{
     order: SortEnum;
-    orderBy: OrdersColumnKeys;
+    orderBy: ImagesColumnKeys;
   }>(() => {
     const searchParamsSort = searchParams.get("sort");
     if (searchParamsSort) {
@@ -74,7 +73,7 @@ function Orders() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: OrdersColumnKeys
+    property: ImagesColumnKeys
   ) => {
     const isAsc = orderBy === property && order === SortEnum.ASC;
     const searchParams = new URLSearchParams(window.location.search);
@@ -94,14 +93,14 @@ function Orders() {
   const filter = useMemo(() => {
     const searchParamsFilter = searchParams.get("filter");
     if (searchParamsFilter) {
-      return JSON.parse(searchParamsFilter) as OrderFilterType;
+      return JSON.parse(searchParamsFilter) as ImageFilterType;
     }
 
     return undefined;
   }, [searchParams]);
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useOrderListQuery({ filter, sort: { order, orderBy } });
+    useImageListQuery({ filter, sort: { order, orderBy } });
 
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -110,7 +109,7 @@ function Orders() {
 
   const result = useMemo(() => {
     const result =
-      (data?.pages.flatMap((page) => page?.data) as Order[]) ?? ([] as Order[]);
+      (data?.pages.flatMap((page) => page?.data) as Image[]) ?? ([] as Image[]);
 
     return removeDuplicatesFromArrayObjects(result, "id");
   }, [data]);
@@ -121,12 +120,12 @@ function Orders() {
         <Grid container item spacing={3} xs={12}>
           <Grid item xs>
             <Typography variant="h3">
-              {tOrders("admin-panel-orders:title")}
+              {tImages("admin-panel-images:title")}
             </Typography>
           </Grid>
           <Grid container item xs="auto" wrap="nowrap" spacing={2}>
             <Grid item xs="auto">
-              <OrderFilter />
+              <ImageFilter />
             </Grid>
           </Grid>
         </Grid>
@@ -148,31 +147,23 @@ function Orders() {
                     column="id"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tOrders("admin-panel-orders:table.id-column")}
+                    {tImages("admin-panel-images:table.id-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
                     order={order}
-                    column="customerName"
+                    column="url"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tOrders("admin-panel-orders:table.customer-name-column")}
+                    {tImages("admin-panel-images:table.customer-name-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
                     order={order}
-                    column="customerPhone"
+                    column="sourceId"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tOrders("admin-panel-orders:table.customer-phone-column")}
-                  </TableSortCellWrapper>
-                  <TableSortCellWrapper
-                    orderBy={orderBy}
-                    order={order}
-                    column="total"
-                    handleRequestSort={handleRequestSort}
-                  >
-                    {tOrders("admin-panel-orders:table.total-column")}
+                    {tImages("admin-panel-images:table.customer-phone-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
@@ -180,14 +171,8 @@ function Orders() {
                     column="status"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tOrders("admin-panel-orders:table.status-column")}
+                    {tImages("admin-panel-images:table.status-column")}
                   </TableSortCellWrapper>
-
-                  <TableCell>
-                    {tOrders("admin-panel-orders:table.item-count-column")}
-                  </TableCell>
-
-                  <TableCell style={{ width: 130 }}></TableCell>
                 </TableRow>
                 {isFetchingNextPage && (
                   <TableRow>
@@ -198,22 +183,12 @@ function Orders() {
                 )}
               </>
             )}
-            itemContent={(index, order) => (
+            itemContent={(index, image) => (
               <>
-                <TableCell style={{ width: 100 }}>{order?.id}</TableCell>
-                <TableCell style={{ width: 200 }}>
-                  {order.customer.name}
-                </TableCell>
-                <TableCell style={{ width: 200 }}>
-                  {order.customer.phone}
-                </TableCell>
-                <TableCell style={{ width: 200 }}>
-                  {Number(order.total).toFixed(2)} $
-                </TableCell>
-                <TableCell style={{ width: 100 }}>{order.status}</TableCell>
-                <TableCell style={{ width: 100 }}>
-                  {order.items.length}
-                </TableCell>
+                <TableCell style={{ width: 100 }}>{image?.id}</TableCell>
+                <TableCell style={{ width: 200 }}>{image.url}</TableCell>
+                <TableCell style={{ width: 100 }}>{image.source.url}</TableCell>
+                <TableCell style={{ width: 100 }}>{image.status}</TableCell>
               </>
             )}
           />
@@ -223,4 +198,4 @@ function Orders() {
   );
 }
 
-export default withPageRequiredAuth(Orders, { roles: [RoleEnum.ADMIN] });
+export default withPageRequiredAuth(Images);

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import EditUser from "./page-content";
 import { getServerTranslation } from "@/services/i18n";
+import Videos from "./page-content";
 
 type Props = {
   params: { language: string };
@@ -9,12 +9,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getServerTranslation(
     params.language,
-    "admin-panel-users-edit"
+    "admin-panel-videos"
   );
 
   return {
-    title: t("title1"),
+    title: t("title"),
   };
 }
 
-export default EditUser;
+export default Videos;

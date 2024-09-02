@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 
 export default function ConfirmEmail() {
@@ -27,7 +26,7 @@ export default function ConfirmEmail() {
           hash,
         });
 
-        if (status === HTTP_CODES_ENUM.NO_CONTENT) {
+        if (status === true) {
           enqueueSnackbar(t("confirm-email:emailConfirmed"), {
             variant: "success",
           });

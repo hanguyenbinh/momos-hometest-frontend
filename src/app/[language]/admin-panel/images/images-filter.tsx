@@ -8,26 +8,23 @@ import Popover from "@mui/material/Popover";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { OrderFilterType } from "./order-filter-types";
+import { ImageFilterType } from "./images-filter-types";
 import FormTextInput from "@/components/form/text-input/form-text-input";
-import { OrderStatus, OrderStatusSelect } from "@/services/api/types/order";
 import FormSelectInput from "@/components/form/select/form-select";
+import { ImageStatusEnum, ImageStatusSelect } from "@/services/api/types/image";
 
-type OrderFilterFormData = OrderFilterType;
+type ImageFilterFormData = ImageFilterType;
 
-function OrderFilter() {
-  const { t } = useTranslation("admin-panel-orders");
+function ImageFilter() {
+  const { t } = useTranslation("admin-panel-images");
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const methods = useForm<OrderFilterFormData>({
+  const methods = useForm<ImageFilterFormData>({
     defaultValues: {
-      customerName: "",
-      customerPhone: "",
-      minTotal: 0,
-      maxTotal: 0,
+      url: "",
       status: {
-        id: OrderStatus.CREATED,
+        id: ImageStatusEnum.NOT_PROCESSED,
       },
     },
   });
@@ -45,7 +42,7 @@ function OrderFilter() {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "order-filter-popover" : undefined;
+  const id = open ? "image-filter-popover" : undefined;
 
   useEffect(() => {
     const filter = searchParams.get("filter");
@@ -84,30 +81,19 @@ function OrderFilter() {
           >
             <Grid container spacing={2} mb={3} mt={3}>
               <Grid item xs={12}>
-                <FormTextInput<OrderFilterFormData>
-                  name="customerName"
-                  label={t("admin-panel-orders:filter.inputs.customer-name")}
+                <FormTextInput<ImageFilterFormData>
+                  name="url"
+                  label={t("admin-panel-images:filter.inputs.customer-name")}
                 ></FormTextInput>
-                <FormTextInput<OrderFilterFormData>
-                  name="customerPhone"
-                  label={t("admin-panel-orders:filter.inputs.customer-phone")}
-                ></FormTextInput>
-                <FormTextInput<OrderFilterFormData>
-                  name="minTotal"
-                  label={t("admin-panel-orders:filter.inputs.min-total")}
-                ></FormTextInput>
-                <FormTextInput<OrderFilterFormData>
-                  name="maxTotal"
-                  label={t("admin-panel-orders:filter.inputs.max-total")}
-                ></FormTextInput>
+
                 <FormSelectInput<
-                  OrderFilterFormData,
-                  Pick<OrderStatusSelect, "id">
+                  ImageFilterFormData,
+                  Pick<ImageStatusSelect, "id">
                 >
                   name="status"
                   testId="status"
-                  label={t("admin-panel-orders:filter.inputs.status")}
-                  options={Object.keys(OrderStatus).map((item) => {
+                  label={t("admin-panel-images:filter.inputs.status")}
+                  options={Object.keys(ImageStatusEnum).map((item) => {
                     console.log(item);
                     return { id: item };
                   })}
@@ -117,7 +103,7 @@ function OrderFilter() {
               </Grid>
               <Grid item xs={12}>
                 <Button variant="contained" type="submit">
-                  {t("admin-panel-orders:filter.actions.apply")}
+                  {t("admin-panel-images:filter.actions.apply")}
                 </Button>
               </Grid>
             </Grid>
@@ -125,10 +111,10 @@ function OrderFilter() {
         </Container>
       </Popover>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        {t("admin-panel-orders:filter.actions.filter")}
+        {t("admin-panel-images:filter.actions.filter")}
       </Button>
     </FormProvider>
   );
 }
 
-export default OrderFilter;
+export default ImageFilter;

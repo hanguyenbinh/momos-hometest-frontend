@@ -177,13 +177,31 @@ function ResponsiveAppBar() {
             >
               {t("common:navigation.users")}
             </Button>
+
             <Button
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
               component={Link}
-              href="/admin-panel/orders"
+              href="/admin-panel/media-sources"
             >
-              {t("common:navigation.orders")}
+              {t("common:navigation.media-sources")}
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+              component={Link}
+              href="/admin-panel/images"
+            >
+              {t("common:navigation.images")}
+            </Button>
+
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+              component={Link}
+              href="/admin-panel/videos"
+            >
+              {t("common:navigation.videos")}
             </Button>
           </Box>
 

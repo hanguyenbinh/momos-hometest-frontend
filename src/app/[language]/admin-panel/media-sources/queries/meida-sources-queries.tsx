@@ -1,9 +1,12 @@
-import { useGetOrdersService } from "@/services/api/services/orders";
-import { createQueryKeys } from "@/services/react-query/query-key-factory";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { OrderFilterType, OrderSortType } from "../order-filter-types";
+import {
+  MediaSourceFilterType,
+  MediaSourceSortType,
+} from "../media-sources-filter-types";
+import { useGetMediaSourcesService } from "@/services/api/services/media-sources";
+import { createQueryKeys } from "@/services/react-query/query-key-factory";
 
-export const ordersQueryKeys = createQueryKeys(["orders"], {
+export const mediaSourcesQueryKeys = createQueryKeys(["mediaSources"], {
   list: () => ({
     key: [],
     sub: {
@@ -11,8 +14,8 @@ export const ordersQueryKeys = createQueryKeys(["orders"], {
         sort,
         filter,
       }: {
-        filter: OrderFilterType | undefined;
-        sort?: OrderSortType | undefined;
+        filter: MediaSourceFilterType | undefined;
+        sort?: MediaSourceSortType | undefined;
       }) => ({
         key: [sort, filter],
       }),
@@ -20,17 +23,17 @@ export const ordersQueryKeys = createQueryKeys(["orders"], {
   }),
 });
 
-export const useOrderListQuery = ({
+export const useMediaSourceListQuery = ({
   sort,
   filter,
 }: {
-  filter?: OrderFilterType | undefined;
-  sort?: OrderSortType | undefined;
+  filter?: MediaSourceFilterType | undefined;
+  sort?: MediaSourceSortType | undefined;
 } = {}) => {
-  const fetch = useGetOrdersService();
+  const fetch = useGetMediaSourcesService();
 
   const query = useInfiniteQuery({
-    queryKey: ordersQueryKeys.list().sub.by({ sort, filter }).key,
+    queryKey: mediaSourcesQueryKeys.list().sub.by({ sort, filter }).key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
@@ -47,7 +50,7 @@ export const useOrderListQuery = ({
 
       if (status === true) {
         return {
-          data: data.orders,
+          data: data.mediaSources,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,
         };
       }
