@@ -83,7 +83,7 @@ function ImageFilter() {
               <Grid item xs={12}>
                 <FormTextInput<ImageFilterFormData>
                   name="url"
-                  label={t("admin-panel-images:filter.inputs.customer-name")}
+                  label={t("admin-panel-images:filter.inputs.url")}
                 ></FormTextInput>
 
                 <FormSelectInput<

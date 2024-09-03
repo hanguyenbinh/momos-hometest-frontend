@@ -19,7 +19,7 @@ import {
 type MediaSourceFilterFormData = MediaSourceFilterType;
 
 function MediaSourceFilter() {
-  const { t } = useTranslation("admin-panel-mediaSources");
+  const { t } = useTranslation("admin-panel-media-sources");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -87,15 +87,11 @@ function MediaSourceFilter() {
               <Grid item xs={12}>
                 <FormTextInput<MediaSourceFilterFormData>
                   name="url"
-                  label={t(
-                    "admin-panel-mediaSources:filter.inputs.customer-name"
-                  )}
+                  label={t("admin-panel-media-sources:filter.inputs.url")}
                 ></FormTextInput>
                 <FormTextInput<MediaSourceFilterFormData>
                   name="isCSR"
-                  label={t(
-                    "admin-panel-mediaSources:filter.inputs.customer-phone"
-                  )}
+                  label={t("admin-panel-media-sources:filter.inputs.is-csr")}
                 ></FormTextInput>
 
                 <FormSelectInput<
@@ -104,7 +100,7 @@ function MediaSourceFilter() {
                 >
                   name="status"
                   testId="status"
-                  label={t("admin-panel-mediaSources:filter.inputs.status")}
+                  label={t("admin-panel-media-sources:filter.inputs.status")}
                   options={Object.keys(MediaSourceStatusEnum).map((item) => {
                     console.log(item);
                     return { id: item };
@@ -115,7 +111,7 @@ function MediaSourceFilter() {
               </Grid>
               <Grid item xs={12}>
                 <Button variant="contained" type="submit">
-                  {t("admin-panel-mediaSources:filter.actions.apply")}
+                  {t("admin-panel-media-sources:filter.actions.apply")}
                 </Button>
               </Grid>
             </Grid>
@@ -123,7 +119,7 @@ function MediaSourceFilter() {
         </Container>
       </Popover>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        {t("admin-panel-mediaSources:filter.actions.filter")}
+        {t("admin-panel-media-sources:filter.actions.filter")}
       </Button>
     </FormProvider>
   );

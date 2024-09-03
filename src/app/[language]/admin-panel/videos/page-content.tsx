@@ -155,7 +155,7 @@ function Videos() {
                     column="url"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tVideos("admin-panel-videos:table.customer-name-column")}
+                    {tVideos("admin-panel-videos:table.url-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
@@ -163,7 +163,7 @@ function Videos() {
                     column="sourceId"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tVideos("admin-panel-videos:table.customer-phone-column")}
+                    {tVideos("admin-panel-videos:table.source-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}

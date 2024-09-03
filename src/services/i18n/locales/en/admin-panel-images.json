@@ -1,0 +1,32 @@
+{
+  "title": "Images",
+  "table": {
+    "id-column": "ID",
+    "status-column": "Status",
+    "source-column": "Source",
+    "url-column": "Url"
+  },
+  "actions": {
+    "add": "Add Image",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create Image"
+  },
+  "confirm": {
+    "delete": {
+      "title": "Delete Image",
+      "message": "Are you sure you want to delete this Image?"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "Filter",
+      "apply": "Apply"
+    },
+    "inputs": {
+      "url": "Url",
+      "status": "Status"      
+
+    }
+  }
+}

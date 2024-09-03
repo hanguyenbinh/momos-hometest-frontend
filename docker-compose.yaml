@@ -6,10 +6,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      
       args:
         ENV_VARIABLE: ${ENV_VARIABLE}
-        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}        
     restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=http://192.168.3.200:3000
+      - NEXT_PUBLIC_IS_SIGN_UP_ENABLED=true
+      - NEXT_PUBLIC_FILE_DRIVER=local
     ports:
       - 5000:3000
     networks:

@@ -2,7 +2,7 @@ FROM node:20.9.0-alpine as base
 
 # Step 1. Rebuild the source code only when needed
 FROM base AS builder
-
+ENV NEXT_PUBLIC_API_URL=http://192.168.3.39:3000
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
@@ -64,7 +64,6 @@ ARG ENV_VARIABLE
 ENV ENV_VARIABLE=${ENV_VARIABLE}
 ARG NEXT_PUBLIC_ENV_VARIABLE
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
-
 # Uncomment the following line to disable telemetry at run time
 # ENV NEXT_TELEMETRY_DISABLED 1
 

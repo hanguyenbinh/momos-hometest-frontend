@@ -83,7 +83,7 @@ function VideoFilter() {
               <Grid item xs={12}>
                 <FormTextInput<VideoFilterFormData>
                   name="url"
-                  label={t("admin-panel-videos:filter.inputs.customer-name")}
+                  label={t("admin-panel-videos:filter.inputs.url")}
                 ></FormTextInput>
 
                 <FormSelectInput<

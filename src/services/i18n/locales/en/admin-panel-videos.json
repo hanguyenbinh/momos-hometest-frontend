@@ -1,0 +1,32 @@
+{
+  "title": "Videos",
+  "table": {
+    "id-column": "ID",
+    "status-column": "Status",
+    "source-column": "Source",
+    "url-column": "Url"    
+  },
+  "actions": {
+    "add": "Add Video",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create Video"
+  },
+  "confirm": {
+    "delete": {
+      "title": "Delete Video",
+      "message": "Are you sure you want to delete this Video?"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "Filter",
+      "apply": "Apply"
+    },
+    "inputs": {
+      "url": "Url",      
+      "status": "Status",
+      "source-id": "Source"
+    }
+  }
+}

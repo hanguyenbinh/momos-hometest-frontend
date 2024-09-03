@@ -155,7 +155,7 @@ function Images() {
                     column="url"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tImages("admin-panel-images:table.customer-name-column")}
+                    {tImages("admin-panel-images:table.url-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
@@ -163,7 +163,7 @@ function Images() {
                     column="sourceId"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tImages("admin-panel-images:table.customer-phone-column")}
+                    {tImages("admin-panel-images:table.source-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}

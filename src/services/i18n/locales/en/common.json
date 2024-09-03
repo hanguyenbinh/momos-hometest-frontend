@@ -8,7 +8,10 @@
     "profile": "Profile",
     "users": "Users",
     "orders": "Orders",
-    "logout": "Logout"
+    "logout": "Logout",
+    "media-sources": "Media sources",
+    "images": "Images",
+    "videos": "Videos"
   },
   "formInputs": {
     "avatarInput": {

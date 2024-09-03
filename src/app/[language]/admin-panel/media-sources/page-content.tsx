@@ -60,7 +60,7 @@ function TableSortCellWrapper(
 }
 
 function MediaSources() {
-  const { t: tMediaSources } = useTranslation("admin-panel-mediaSources");
+  const { t: tMediaSources } = useTranslation("admin-panel-media-sources");
   const searchParams = useSearchParams();
   const router = useRouter();
   const [{ order, orderBy }, setSort] = useState<{
@@ -124,7 +124,7 @@ function MediaSources() {
         <Grid container item spacing={3} xs={12}>
           <Grid item xs>
             <Typography variant="h3">
-              {tMediaSources("admin-panel-mediaSources:title")}
+              {tMediaSources("admin-panel-media-sources:title")}
             </Typography>
           </Grid>
           <Grid container item xs="auto" wrap="nowrap" spacing={2}>
@@ -151,7 +151,7 @@ function MediaSources() {
                     column="id"
                     handleRequestSort={handleRequestSort}
                   >
-                    {tMediaSources("admin-panel-mediaSources:table.id-column")}
+                    {tMediaSources("admin-panel-media-sources:table.id-column")}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
                     orderBy={orderBy}
@@ -160,7 +160,7 @@ function MediaSources() {
                     handleRequestSort={handleRequestSort}
                   >
                     {tMediaSources(
-                      "admin-panel-mediaSources:table.customer-name-column"
+                      "admin-panel-media-sources:table.url-column"
                     )}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
@@ -170,7 +170,7 @@ function MediaSources() {
                     handleRequestSort={handleRequestSort}
                   >
                     {tMediaSources(
-                      "admin-panel-mediaSources:table.customer-phone-column"
+                      "admin-panel-media-sources:table.is-csr-column"
                     )}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
@@ -180,7 +180,7 @@ function MediaSources() {
                     handleRequestSort={handleRequestSort}
                   >
                     {tMediaSources(
-                      "admin-panel-mediaSources:table.total-column"
+                      "admin-panel-media-sources:table.total-images-column"
                     )}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
@@ -190,7 +190,7 @@ function MediaSources() {
                     handleRequestSort={handleRequestSort}
                   >
                     {tMediaSources(
-                      "admin-panel-mediaSources:table.total-column"
+                      "admin-panel-media-sources:table.total-videos-column"
                     )}
                   </TableSortCellWrapper>
                   <TableSortCellWrapper
@@ -200,7 +200,7 @@ function MediaSources() {
                     handleRequestSort={handleRequestSort}
                   >
                     {tMediaSources(
-                      "admin-panel-mediaSources:table.status-column"
+                      "admin-panel-media-sources:table.status-column"
                     )}
                   </TableSortCellWrapper>
                 </TableRow>

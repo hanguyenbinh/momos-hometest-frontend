@@ -1,0 +1,35 @@
+{
+  "title": "Media Sources",
+  "table": {
+    "id-column": "ID",
+    "url-column": "Url",
+    "status-column": "Status",    
+    "is-csr-column": "Csr",
+    "total-images-column": "Total images",
+    "total-videos-column": "Total videos"
+    
+  },
+  "actions": {
+    "add": "Add Media Source",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create Media Source"
+  },
+  "confirm": {
+    "delete": {
+      "title": "Delete Media Source",
+      "message": "Are you sure you want to delete this Media Source?"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "Filter",
+      "apply": "Apply"
+    },
+    "inputs": {
+      "url": "Url",
+      "is-csr": "Is csr",
+      "status": "Status"
+    }
+  }
+}
